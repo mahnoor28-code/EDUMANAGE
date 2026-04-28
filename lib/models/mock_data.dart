@@ -26,9 +26,9 @@ class Assignment {
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       targetClass: data['targetClass'] ?? '',
-      dueDate: data['dueDate'] != null ? DateTime.fromMillisecondsSinceEpoch(data['dueDate'].millisecondsSinceEpoch) : DateTime.now(),
+      dueDate: data['dueDate'] != null ? (data['dueDate'] is DateTime ? data['dueDate'] : (data['dueDate'] as dynamic).toDate()) : DateTime.now(),
       teacherId: data['teacherId'] ?? '',
-      postedDate: data['postedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(data['postedDate'].millisecondsSinceEpoch) : DateTime.now(),
+      postedDate: data['postedDate'] != null ? (data['postedDate'] is DateTime ? data['postedDate'] : (data['postedDate'] as dynamic).toDate()) : DateTime.now(),
     );
   }
 
@@ -126,7 +126,7 @@ class Notice {
       id: id,
       title: data['title'] ?? '',
       content: data['content'] ?? '',
-      date: data['date'] != null ? DateTime.fromMillisecondsSinceEpoch(data['date'].millisecondsSinceEpoch) : DateTime.now(),
+      date: data['date'] != null ? (data['date'] is DateTime ? data['date'] : (data['date'] as dynamic).toDate()) : DateTime.now(),
       postedBy: data['postedBy'] ?? '',
     );
   }
@@ -161,7 +161,7 @@ class FeedbackItem {
       id: id,
       text: data['text'] ?? '',
       submittedBy: data['submittedBy'] ?? '',
-      date: data['date'] != null ? DateTime.fromMillisecondsSinceEpoch(data['date'].millisecondsSinceEpoch) : DateTime.now(),
+      date: data['date'] != null ? (data['date'] is DateTime ? data['date'] : (data['date'] as dynamic).toDate()) : DateTime.now(),
       type: data['type'] ?? '',
     );
   }
@@ -206,10 +206,10 @@ class LeaveRequest {
       userName: data['userName'] ?? '',
       userRole: data['userRole'] ?? '',
       reason: data['reason'] ?? '',
-      startDate: data['startDate'] != null ? DateTime.fromMillisecondsSinceEpoch(data['startDate'].millisecondsSinceEpoch) : DateTime.now(),
-      endDate: data['endDate'] != null ? DateTime.fromMillisecondsSinceEpoch(data['endDate'].millisecondsSinceEpoch) : DateTime.now(),
+      startDate: data['startDate'] != null ? (data['startDate'] is DateTime ? data['startDate'] : (data['startDate'] as dynamic).toDate()) : DateTime.now(),
+      endDate: data['endDate'] != null ? (data['endDate'] is DateTime ? data['endDate'] : (data['endDate'] as dynamic).toDate()) : DateTime.now(),
       status: data['status'] ?? 'Pending',
-      appliedDate: data['appliedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(data['appliedDate'].millisecondsSinceEpoch) : DateTime.now(),
+      appliedDate: data['appliedDate'] != null ? (data['appliedDate'] is DateTime ? data['appliedDate'] : (data['appliedDate'] as dynamic).toDate()) : DateTime.now(),
     );
   }
 
@@ -223,6 +223,32 @@ class LeaveRequest {
       'endDate': endDate,
       'status': status,
       'appliedDate': appliedDate,
+    };
+  }
+}
+
+class Book {
+  final String id;
+  final String title;
+  final String isbn;
+  final String status;
+
+  Book({required this.id, required this.title, required this.isbn, required this.status});
+
+  factory Book.fromMap(Map<String, dynamic> data, String id) {
+    return Book(
+      id: id,
+      title: data['title'] ?? '',
+      isbn: data['isbn'] ?? '',
+      status: data['status'] ?? 'Available',
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'isbn': isbn,
+      'status': status,
     };
   }
 }

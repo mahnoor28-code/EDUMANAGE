@@ -3,6 +3,9 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
 import 'role_selection.dart';
 import 'forgot_password_screen.dart';
+import 'admin/admin_dashboard.dart';
+import 'teacher/teacher_dashboard.dart';
+import 'student/student_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,14 +16,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      final username = _emailController.text.split('@').first; // basic assumption: extract name before @ if email
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => RoleSelectionScreen(username: username)),
-      );
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+
+      if (email == 'admin@edumanage.com' && password == 'password123') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminDashboard(username: 'Admin')),
+        );
+      } else if (email == 'teacher@edumanage.com' && password == 'password123') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const TeacherDashboard(username: 'Teacher')),
+        );
+      } else if (email == 'student@edumanage.com' && password == 'password123') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const StudentDashboard(username: 'Student')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Invalid email or password'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 
@@ -121,8 +147,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         CustomTextField(
                           hintText: 'Password',
                           prefixIcon: Icons.lock_outline,
-                          obscureText: true,
+                          obscureText: _obscurePassword,
                           controller: _passwordController,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';

@@ -70,11 +70,12 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
               ),
               title: Text(s['subject'] as String, style: TextStyle(fontWeight: FontWeight.bold, fontSize: isBreak ? 18 : 16)),
               subtitle: Text(s['time'] as String),
-              trailing: isPast
-                  ? DropdownButtonHideUnderline(
+              trailing: isBreak 
+                  ? null 
+                  : DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: s['status'] as String?,
-                        hint: const Text('Select Status'),
+                        hint: const Text('Status'),
                         icon: const Icon(Icons.arrow_drop_down, color: Colors.blue),
                         items: [
                           DropdownMenuItem(
@@ -108,8 +109,7 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
                           });
                         },
                       ),
-                    )
-                  : null,
+                    ),
             ),
           );
         },

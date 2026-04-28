@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../services/database_service.dart';
+import '../../models/mock_data.dart';
 
 class ManageLibraryScreen extends StatefulWidget {
   const ManageLibraryScreen({Key? key}) : super(key: key);
@@ -8,11 +10,7 @@ class ManageLibraryScreen extends StatefulWidget {
 }
 
 class _ManageLibraryScreenState extends State<ManageLibraryScreen> {
-  final List<Map<String, String>> _inventory = [
-    {'title': 'Calculus - James Stewart', 'isbn': '978-1285057095', 'status': '5 Available'},
-    {'title': 'Artificial Intelligence', 'isbn': '978-0134610993', 'status': 'Out of Stock'},
-    {'title': 'Data Structures in C++', 'isbn': '978-0131369082', 'status': '2 Available'},
-  ];
+  final DatabaseService _dbService = DatabaseService();
 
   void _showAddBookModal() {
     final titleController = TextEditingController();
@@ -35,16 +33,18 @@ class _ManageLibraryScreenState extends State<ManageLibraryScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.brown, foregroundColor: Colors.white),
-                onPressed: () {
-                  setState(() {
-                    _inventory.insert(0, {
-                      'title': titleController.text,
-                      'isbn': isbnController.text,
-                      'status': '1 Available',
-                    });
-                  });
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Book Added!')));
+                onPressed: () async {
+                  if (titleController.text.isNotEmpty && isbnController.text.isNotEmpty) {
+                    final newBook = Book(
+                      id: '',
+                      title: titleController.text,
+                      isbn: isbnController.text,
+                      status: 'Available',
+                    );
+                    await _dbService.addBook(newBook);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Book Added!')));
+                  }
                 },
                 child: const Text('Add Book'),
               ),
@@ -87,27 +87,56 @@ class _ManageLibraryScreenState extends State<ManageLibraryScreen> {
             const Text('Inventory Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: _inventory.length,
-                itemBuilder: (context, index) {
-                  final book = _inventory[index];
-                  bool oos = book['status'] == 'Out of Stock';
-                  return Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.book, color: Colors.brown),
-                      title: Text(book['title']!),
-                      subtitle: Text('ISBN: ${book['isbn']}'),
-                      trailing: Chip(
-                        label: Text(book['status']!, style: const TextStyle(color: Colors.white)),
-                        backgroundColor: oos ? Colors.redAccent : Colors.greenAccent.shade700,
-                      ),
-                      onLongPress: () {
-                        setState(() {
-                          _inventory.removeAt(index);
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Book Removed')));
-                      },
-                    ),
+              child: StreamBuilder<List<Book>>(
+                stream: _dbService.streamBooks(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return const Center(child: Text('Error loading inventory'));
+                  }
+
+                  final inventory = snapshot.data ?? [];
+
+                  if (inventory.isEmpty) {
+                    return const Center(child: Text('No books in inventory.'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: inventory.length,
+                    itemBuilder: (context, index) {
+                      final book = inventory[index];
+                      bool oos = book.status == 'Out of Stock';
+                      return Card(
+                        child: ListTile(
+                          leading: const Icon(Icons.book, color: Colors.brown),
+                          title: Text(book.title),
+                          subtitle: Text('ISBN: ${book.isbn}'),
+                          trailing: Chip(
+                            label: Text(book.status, style: const TextStyle(color: Colors.white)),
+                            backgroundColor: oos ? Colors.redAccent : Colors.greenAccent.shade700,
+                          ),
+                          onLongPress: () async {
+                            final confirm = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Delete Book?'),
+                                content: Text('Are you sure you want to remove "${book.title}"?'),
+                                actions: [
+                                  TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                                  TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete', style: TextStyle(color: Colors.red))),
+                                ],
+                              ),
+                            );
+                            if (confirm == true) {
+                              await _dbService.deleteBook(book.id);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Book Removed')));
+                            }
+                          },
+                        ),
+                      );
+                    },
                   );
                 },
               ),

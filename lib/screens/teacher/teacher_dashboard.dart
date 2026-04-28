@@ -52,6 +52,61 @@ class TeacherDashboard extends StatelessWidget {
           ),
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(color: AppColors.navy),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.person, size: 40, color: AppColors.coral),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    username,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    'Teacher Portal',
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text('Dashboard'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.fact_check),
+              title: const Text('Attendance'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const MarkAttendanceScreen()));
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('Logout', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -83,7 +138,7 @@ class TeacherDashboard extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         const Text(
-                          'Mathematics Department',
+                          'Teacher Portal',
                           style: TextStyle(fontSize: 14, color: Colors.white70),
                         ),
                       ],
@@ -94,124 +149,71 @@ class TeacherDashboard extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView(
+              child: GridView.count(
+                crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : MediaQuery.of(context).size.width < 900 ? 3 : 4,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: MediaQuery.of(context).size.width < 400 ? 1.1 : 1.3,
                 children: [
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : MediaQuery.of(context).size.width < 900 ? 3 : 4,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: MediaQuery.of(context).size.width < 400 ? 1.1 : 1.3,
-                    children: [
-                      DashboardCard(
-                        title: 'Mark Attendance',
-                        icon: Icons.fact_check,
-                        color: Colors.green,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MarkAttendanceScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Add Marks',
-                        icon: Icons.format_list_numbered,
-                        color: Colors.orange,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AddMarksScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Upload Assignments',
-                        icon: Icons.upload_file,
-                        color: Colors.blue,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const UploadAssignmentScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Student Performance',
-                        icon: Icons.bar_chart,
-                        color: Colors.purple,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentPerformanceScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'My Timetable',
-                        icon: Icons.calendar_today,
-                        color: AppColors.coral,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TeacherTimetableScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Leave Request',
-                        icon: Icons.event_busy,
-                        color: Colors.redAccent,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LeaveRequestScreen(userId: 'T001', userName: 'Teacher', userRole: 'Teacher'))),
-                      ),
-                      DashboardCard(
-                        title: 'Payroll Details',
-                        icon: Icons.payments,
-                        color: Colors.teal,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PayrollScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Class Announcements',
-                        icon: Icons.campaign,
-                        color: Colors.amber,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ClassAnnouncementsScreen())),
-                      ),
-                      DashboardCard(
-                        title: 'Feedback',
-                        icon: Icons.feedback,
-                        color: Colors.blueGrey,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen(userRole: 'Teacher', userId: 'T001'))),
-                      ),
-                      DashboardCard(
-                        title: 'Regulations',
-                        icon: Icons.rule,
-                        color: Colors.deepOrange,
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegulationsScreen(isAdmin: false, targetRole: 'Teacher'))),
-                      ),
-                    ],
+                  DashboardCard(
+                    title: 'Mark Attendance',
+                    icon: Icons.fact_check,
+                    color: Colors.green,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MarkAttendanceScreen())),
                   ),
-                  const SizedBox(height: 24),
-                  const Text('Recent Leave Requests', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.navy)),
-                  const SizedBox(height: 10),
-                  StreamBuilder<List<LeaveRequest>>(
-                    stream: DatabaseService().streamLeaveRequests(userId: 'T001'),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasError) {
-                        return const Center(child: Text('Error loading requests'));
-                      }
-                      final requests = snapshot.data ?? [];
-                      if (requests.isEmpty) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text('No recent leave requests.', style: TextStyle(color: Colors.grey)),
-                        );
-                      }
-
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: requests.length > 3 ? 3 : requests.length,
-                        itemBuilder: (context, index) {
-                          final req = requests[index];
-                          final duration = req.endDate.difference(req.startDate).inDays + 1;
-                          Color statusColor = Colors.orange;
-                          if (req.status == 'Approved') statusColor = Colors.green;
-                          if (req.status == 'Rejected') statusColor = Colors.red;
-
-                          return Card(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: ListTile(
-                              title: Text(req.reason, style: const TextStyle(fontWeight: FontWeight.bold)),
-                              subtitle: Text('${DateFormat('MMM dd').format(req.startDate)} - ${DateFormat('MMM dd, yyyy').format(req.endDate)} ($duration days)'),
-                              trailing: Chip(
-                                label: Text(req.status, style: const TextStyle(color: Colors.white, fontSize: 12)),
-                                backgroundColor: statusColor,
-                                padding: EdgeInsets.zero,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                  DashboardCard(
+                    title: 'Add Marks',
+                    icon: Icons.format_list_numbered,
+                    color: Colors.orange,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AddMarksScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'Upload Assignments',
+                    icon: Icons.upload_file,
+                    color: Colors.blue,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const UploadAssignmentScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'Student Performance',
+                    icon: Icons.bar_chart,
+                    color: Colors.purple,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentPerformanceScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'My Timetable',
+                    icon: Icons.calendar_today,
+                    color: AppColors.coral,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TeacherTimetableScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'Leave Request',
+                    icon: Icons.event_busy,
+                    color: Colors.redAccent,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LeaveRequestScreen(userId: 'T001', userName: 'Teacher', userRole: 'Teacher'))),
+                  ),
+                  DashboardCard(
+                    title: 'Payroll Details',
+                    icon: Icons.payments,
+                    color: Colors.teal,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PayrollScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'Class Announcements',
+                    icon: Icons.campaign,
+                    color: Colors.amber,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ClassAnnouncementsScreen())),
+                  ),
+                  DashboardCard(
+                    title: 'Feedback',
+                    icon: Icons.feedback,
+                    color: Colors.blueGrey,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FeedbackScreen(userRole: 'Teacher', userId: 'T001'))),
+                  ),
+                  DashboardCard(
+                    title: 'Regulations',
+                    icon: Icons.rule,
+                    color: Colors.deepOrange,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegulationsScreen(isAdmin: false, targetRole: 'Teacher'))),
                   ),
                 ],
               ),

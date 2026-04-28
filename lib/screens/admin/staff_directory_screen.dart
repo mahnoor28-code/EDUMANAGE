@@ -9,10 +9,10 @@ class StaffDirectoryScreen extends StatefulWidget {
 
 class _StaffDirectoryScreenState extends State<StaffDirectoryScreen> {
   final List<Map<String, String>> _allStaff = [
-    {'name': 'John Doe', 'department': 'Mathematics Dept', 'phone': '+1 555-0101', 'role': 'Head of Dept'},
-    {'name': 'Jane Smith', 'department': 'Physics Dept', 'phone': '+1 555-0102', 'role': 'Senior Teacher'},
-    {'name': 'Michael Johnson', 'department': 'Administration', 'phone': '+1 555-0103', 'role': 'Clerk'},
-    {'name': 'Emily Davis', 'department': 'Chemistry Dept', 'phone': '+1 555-0104', 'role': 'Teacher'},
+    {'name': 'Ali', 'department': 'Mathematics Dept', 'phone': '+1 555-0101', 'role': 'Guard'},
+    {'name': 'Kareem', 'department': 'Physics Dept', 'phone': '+1 555-0102', 'role': 'Attender'},
+    {'name': 'Muneer', 'department': 'Administration', 'phone': '+1 555-0103', 'role': 'Clerk'},
+    {'name': 'Akram', 'department': 'Chemistry Dept', 'phone': '+1 555-0104', 'role': 'Peon'},
   ];
 
   late List<Map<String, String>> _filteredStaff;

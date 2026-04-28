@@ -18,36 +18,38 @@ class _FeesPaymentScreenState extends State<FeesPaymentScreen> {
       builder: (context) {
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 20, right: 20, top: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Secure Payment Gateway', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 20),
-              TextFormField(decoration: const InputDecoration(labelText: 'Card Number', border: OutlineInputBorder(), prefixIcon: Icon(Icons.credit_card))),
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                   Expanded(child: TextFormField(decoration: const InputDecoration(labelText: 'Expiry (MM/YY)', border: OutlineInputBorder()))),
-                   const SizedBox(width: 15),
-                   Expanded(child: TextFormField(decoration: const InputDecoration(labelText: 'CVV', border: OutlineInputBorder()))),
-                ],
-              ),
-              const SizedBox(height: 25),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo, foregroundColor: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() { _isPaid = true; });
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Payment Successful!'), backgroundColor: Colors.green));
-                  },
-                  child: const Text('Confirm Payment - Rs 14,500'),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Secure Payment Gateway', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                TextFormField(decoration: const InputDecoration(labelText: 'Card Number', border: OutlineInputBorder(), prefixIcon: Icon(Icons.credit_card))),
+                const SizedBox(height: 15),
+                Row(
+                  children: [
+                     Expanded(child: TextFormField(decoration: const InputDecoration(labelText: 'Expiry (MM/YY)', border: OutlineInputBorder()))),
+                     const SizedBox(width: 15),
+                     Expanded(child: TextFormField(decoration: const InputDecoration(labelText: 'CVV', border: OutlineInputBorder()))),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 30),
-            ],
+                const SizedBox(height: 25),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo, foregroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      setState(() { _isPaid = true; });
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Payment Successful!'), backgroundColor: Colors.green));
+                    },
+                    child: const Text('Confirm Payment - Rs 14,500'),
+                  ),
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         );
       }
@@ -58,7 +60,7 @@ class _FeesPaymentScreenState extends State<FeesPaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Fees Payment')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,7 +96,7 @@ class _FeesPaymentScreenState extends State<FeesPaymentScreen> {
                 ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 30),
             if (!_isPaid)
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

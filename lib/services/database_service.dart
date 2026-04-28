@@ -88,10 +88,11 @@ class DatabaseService {
   // --- Assignments ---
   
   Stream<List<Assignment>> streamAssignments({String? targetClass}) {
-    Query query = _db.collection('assignments').orderBy('postedDate', descending: true);
+    Query query = _db.collection('assignments');
     if (targetClass != null) {
       query = query.where('targetClass', isEqualTo: targetClass);
     }
+    // Note: Removed orderBy to avoid requiring composite indices for now
     return query.snapshots().map((snapshot) => 
       snapshot.docs.map((doc) => Assignment.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList()
     );
@@ -99,6 +100,26 @@ class DatabaseService {
 
   Future<void> addAssignment(Assignment assignment) async {
     await _db.collection('assignments').add(assignment.toMap());
+  }
+
+  // --- Library ---
+  
+  Stream<List<Book>> streamBooks() {
+    return _db.collection('library').snapshots().map((snapshot) => 
+      snapshot.docs.map((doc) => Book.fromMap(doc.data(), doc.id)).toList()
+    );
+  }
+
+  Future<void> addBook(Book book) async {
+    await _db.collection('library').add(book.toMap());
+  }
+
+  Future<void> deleteBook(String id) async {
+    await _db.collection('library').doc(id).delete();
+  }
+
+  Future<void> updateBookStatus(String id, String status) async {
+    await _db.collection('library').doc(id).update({'status': status});
   }
 
   // --- Students ---
@@ -113,6 +134,10 @@ class DatabaseService {
     await _db.collection('students').add(student.toMap());
   }
 
+  Future<void> deleteStudent(String id) async {
+    await _db.collection('students').doc(id).delete();
+  }
+
   // --- Teachers ---
 
   Stream<List<TeacherModel>> streamTeachers() {
@@ -123,5 +148,9 @@ class DatabaseService {
 
   Future<void> addTeacher(TeacherModel teacher) async {
     await _db.collection('teachers').add(teacher.toMap());
+  }
+
+  Future<void> deleteTeacher(String id) async {
+    await _db.collection('teachers').doc(id).delete();
   }
 }

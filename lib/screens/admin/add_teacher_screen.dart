@@ -55,9 +55,10 @@ class _AddTeacherScreenState extends State<AddTeacherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Manage Teachers')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Form(
               key: _formKey,
@@ -89,50 +90,64 @@ class _AddTeacherScreenState extends State<AddTeacherScreen> {
             const Divider(),
             const Text('Teacher Directory', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Expanded(
-              child: StreamBuilder<List<TeacherModel>>(
-                stream: _dbService.streamTeachers(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    return const Center(child: Text('Error loading teachers'));
-                  }
+            StreamBuilder<List<TeacherModel>>(
+              stream: _dbService.streamTeachers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Error loading teachers'));
+                }
 
-                  final teachersList = snapshot.data ?? [];
+                final teachersList = snapshot.data ?? [];
 
-                  if (teachersList.isEmpty) {
-                    return const Center(child: Text('No teachers added yet.'));
-                  }
+                if (teachersList.isEmpty) {
+                  return const Center(child: Text('No teachers added yet.'));
+                }
 
-                  return ListView.builder(
-                    itemCount: teachersList.length,
-                    itemBuilder: (context, index) {
-                      final teacher = teachersList[index];
-                      return Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.orange,
-                            child: Text(teacher.name.isNotEmpty ? teacher.name[0] : '?', style: const TextStyle(color: Colors.white)),
-                          ),
-                          title: Text(teacher.name),
-                          subtitle: Text('Subject: ${teacher.subject} | Dept: ${teacher.department}'),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline, color: Colors.red),
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Deletion not implemented yet.')),
-                              );
-                            },
-                          ),
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: teachersList.length,
+                  itemBuilder: (context, index) {
+                    final teacher = teachersList[index];
+                    return Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.orange,
+                          child: Text(teacher.name.isNotEmpty ? teacher.name[0] : '?', style: const TextStyle(color: Colors.white)),
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
+                        title: Text(teacher.name),
+                        subtitle: Text('Subject: ${teacher.subject} | Dept: ${teacher.department}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete_outline, color: Colors.red),
+                          onPressed: () async {
+                            final confirm = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Delete Teacher?'),
+                                content: Text('Are you sure you want to remove "${teacher.name}"?'),
+                                actions: [
+                                  TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                                  TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete', style: TextStyle(color: Colors.red))),
+                                ],
+                              ),
+                            );
+                            if (confirm == true) {
+                              await _dbService.deleteTeacher(teacher.id);
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Teacher Removed')));
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
