@@ -14,19 +14,18 @@ class RoleSelectionScreen extends StatelessWidget {
       MaterialPageRoute(builder: (context) => screen),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Theme.of(context).primaryColor,
-              Colors.deepPurpleAccent,
-              Colors.blueAccent,
+              Color(0xFF0F2027), // Deep dark
+              Color(0xFF203A43), // Slightly lighter
+              Color(0xFF2C5364), // Ocean blue
             ],
           ),
         ),
@@ -34,7 +33,7 @@ class RoleSelectionScreen extends StatelessWidget {
           child: Column(
             children: [
               AppBar(
-                title: const Text('Select Role', style: TextStyle(fontWeight: FontWeight.bold)),
+                title: const Text('Select Your Role', style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 1.2)),
                 elevation: 0,
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.white,
@@ -42,23 +41,32 @@ class RoleSelectionScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Who are you logging in as?',
+                        'Welcome Back!',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Choose your profile to continue',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white.withOpacity(0.7),
+                        ),
+                      ),
+                      const SizedBox(height: 50),
                       _buildRoleCard(
                         context,
                         title: 'Administrator',
-                        icon: Icons.admin_panel_settings,
+                        subtitle: 'Manage the entire school system',
+                        icon: Icons.admin_panel_settings_rounded,
                         color: Colors.redAccent,
                         onTap: () => _navigateTo(context, AdminDashboard(username: username)),
                       ),
@@ -66,7 +74,8 @@ class RoleSelectionScreen extends StatelessWidget {
                       _buildRoleCard(
                         context,
                         title: 'Teacher',
-                        icon: Icons.person,
+                        subtitle: 'Access classes and manage students',
+                        icon: Icons.person_rounded,
                         color: Colors.blueAccent,
                         onTap: () => _navigateTo(context, TeacherDashboard(username: username)),
                       ),
@@ -74,7 +83,8 @@ class RoleSelectionScreen extends StatelessWidget {
                       _buildRoleCard(
                         context,
                         title: 'Student',
-                        icon: Icons.school,
+                        subtitle: 'View grades, attendance, and more',
+                        icon: Icons.school_rounded,
                         color: Colors.green,
                         onTap: () => _navigateTo(context, StudentDashboard(username: username)),
                       ),
@@ -89,53 +99,74 @@ class RoleSelectionScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildRoleCard(BuildContext context, {
     required String title,
+    required String subtitle,
     required IconData icon,
     required Color color,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade200),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.05),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        highlightColor: color.withOpacity(0.1),
+        splashColor: color.withOpacity(0.2),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 15,
+                offset: const Offset(0, 10),
               ),
-              child: Icon(icon, color: color, size: 32),
-            ),
-            const SizedBox(width: 20),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(color: color.withOpacity(0.4), blurRadius: 10, offset: const Offset(0, 4)),
+                  ],
+                ),
+                child: Icon(icon, color: Colors.white, size: 28),
               ),
-            ),
-            const Spacer(),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-          ],
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.7),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios_rounded, size: 18, color: Colors.white.withOpacity(0.5)),
+            ],
+          ),
         ),
       ),
     );

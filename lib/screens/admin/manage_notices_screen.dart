@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
+import '../../services/database_service.dart';
+import '../../models/mock_data.dart'; // Contains Notice model
 
 class ManageNoticesScreen extends StatefulWidget {
   const ManageNoticesScreen({Key? key}) : super(key: key);
@@ -10,26 +12,27 @@ class ManageNoticesScreen extends StatefulWidget {
 }
 
 class _ManageNoticesScreenState extends State<ManageNoticesScreen> {
-  final List<Map<String, String>> _notices = [
-    {'title': 'Annual Sports Day', 'date': '12 Oct 2024', 'content': 'The Annual Sports Day will be held on 25th Oct. Students are requested to register.'},
-    {'title': 'Exam Schedule Released', 'date': '10 Oct 2024', 'content': 'Mid-term exam schedule for all classes is now available on the portal.'},
-  ];
-
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  final DatabaseService _dbService = DatabaseService();
 
-  void _postNotice() {
+  void _postNotice() async {
     if (_titleController.text.isNotEmpty && _contentController.text.isNotEmpty) {
-      setState(() {
-        _notices.insert(0, {
-          'title': _titleController.text,
-          'date': 'Today',
-          'content': _contentController.text,
-        });
-      });
-      _titleController.clear();
-      _contentController.clear();
-      Navigator.pop(context);
+      final newNotice = Notice(
+        id: '', 
+        title: _titleController.text,
+        content: _contentController.text,
+        date: DateTime.now(),
+        postedBy: 'Admin',
+      );
+      
+      await _dbService.addNotice(newNotice);
+      
+      if (mounted) {
+        _titleController.clear();
+        _contentController.clear();
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -53,6 +56,10 @@ class _ManageNoticesScreenState extends State<ManageNoticesScreen> {
       ),
     );
   }
+  
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,33 +69,52 @@ class _ManageNoticesScreenState extends State<ManageNoticesScreen> {
         onPressed: _showAddNoticeDialog,
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _notices.length,
-        itemBuilder: (context, index) {
-          final notice = _notices[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: StreamBuilder<List<Notice>>(
+        stream: _dbService.streamNotices(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+             return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          
+          final notices = snapshot.data ?? [];
+          
+          if (notices.isEmpty) {
+             return const Center(child: Text('No notices found.'));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: notices.length,
+            itemBuilder: (context, index) {
+              final notice = notices[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(notice['title']!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text(notice['date']!, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(notice.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                          Text(_formatDate(notice.date), style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(notice.content),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(notice['content']!),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           );
-        },
+        }
       ),
     );
   }
 }
+

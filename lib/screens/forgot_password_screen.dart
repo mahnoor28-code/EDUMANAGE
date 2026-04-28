@@ -15,7 +15,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   void _resetPassword() {
     if (_formKey.currentState!.validate()) {
-      // Dummy logic for resetting password
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Password reset link sent to ${_emailController.text}'),

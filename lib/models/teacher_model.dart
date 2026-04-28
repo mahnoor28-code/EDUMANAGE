@@ -10,4 +10,21 @@ class TeacherModel {
     required this.subject,
     required this.department,
   });
+
+  factory TeacherModel.fromMap(Map<String, dynamic> data, String id) {
+    return TeacherModel(
+      id: id,
+      name: data['name'] ?? '',
+      subject: data['subject'] ?? '',
+      department: data['department'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'subject': subject,
+      'department': department,
+    };
+  }
 }

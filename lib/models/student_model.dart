@@ -12,4 +12,23 @@ class StudentModel {
     required this.currentClass,
     this.isPresent = false,
   });
+
+  factory StudentModel.fromMap(Map<String, dynamic> data, String id) {
+    return StudentModel(
+      id: id,
+      name: data['name'] ?? '',
+      rollNumber: data['rollNumber'] ?? '',
+      currentClass: data['currentClass'] ?? '',
+      isPresent: data['isPresent'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'rollNumber': rollNumber,
+      'currentClass': currentClass,
+      'isPresent': isPresent,
+    };
+  }
 }

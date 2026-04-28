@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636751256605",
+    "project_id": "edumanage-b4e53",
+    "storage_bucket": "edumanage-b4e53.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636751256605:android:8c32d46cf3bb8dd8603af4",
+        "android_client_info": {
+          "package_name": "com.example.edumanage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJUKrtecSZeS0CqNCvFC5-ot9OyxuOJQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
