@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
-import 'role_selection.dart';
 import 'forgot_password_screen.dart';
 import 'admin/admin_dashboard.dart';
 import 'teacher/teacher_dashboard.dart';
 import 'student/student_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

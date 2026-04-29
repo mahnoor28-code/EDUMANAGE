@@ -4,7 +4,7 @@ import '../../models/mock_data.dart';
 import 'package:intl/intl.dart';
 
 class ClassAnnouncementsScreen extends StatefulWidget {
-  const ClassAnnouncementsScreen({Key? key}) : super(key: key);
+  const ClassAnnouncementsScreen({super.key});
 
   @override
   State<ClassAnnouncementsScreen> createState() => _ClassAnnouncementsScreenState();
@@ -20,7 +20,7 @@ class _ClassAnnouncementsScreenState extends State<ClassAnnouncementsScreen> {
     if (_titleController.text.isNotEmpty && _messageController.text.isNotEmpty && _selectedClass != null) {
       final newNotice = Notice(
         id: '',
-        title: '[${_selectedClass}] ${_titleController.text}',
+        title: '[$_selectedClass] ${_titleController.text}',
         content: _messageController.text,
         date: DateTime.now(),
         postedBy: 'Teacher',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme.dart';
 
 class InternalMessagingScreen extends StatefulWidget {
-  const InternalMessagingScreen({Key? key}) : super(key: key);
+  const InternalMessagingScreen({super.key});
 
   @override
   State<InternalMessagingScreen> createState() => _InternalMessagingScreenState();

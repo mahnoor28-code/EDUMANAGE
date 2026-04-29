@@ -6,7 +6,7 @@ import 'student/student_dashboard.dart';
 class RoleSelectionScreen extends StatelessWidget {
   final String username;
   
-  const RoleSelectionScreen({Key? key, required this.username}) : super(key: key);
+  const RoleSelectionScreen({super.key, required this.username});
 
   void _navigateTo(BuildContext context, Widget screen) {
     Navigator.pushReplacement(

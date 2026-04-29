@@ -5,10 +5,10 @@ class PayslipPdfScreen extends StatelessWidget {
   final String amount;
 
   const PayslipPdfScreen({
-    Key? key,
+    super.key,
     required this.month,
     required this.amount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

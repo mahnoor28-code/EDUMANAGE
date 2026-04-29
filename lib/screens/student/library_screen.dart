@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatefulWidget {
-  const LibraryScreen({Key? key}) : super(key: key);
+  const LibraryScreen({super.key});
 
   @override
   State<LibraryScreen> createState() => _LibraryScreenState();
@@ -62,7 +62,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
               ),
             );
-          }).toList(),
+          }),
           const SizedBox(height: 20),
           const Text('Currently Issued', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
@@ -74,7 +74,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 subtitle: Text('Due: ${book['due']}'),
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

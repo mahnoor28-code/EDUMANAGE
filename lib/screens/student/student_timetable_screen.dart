@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StudentTimetableScreen extends StatefulWidget {
-  const StudentTimetableScreen({Key? key}) : super(key: key);
+  const StudentTimetableScreen({super.key});
 
   @override
   State<StudentTimetableScreen> createState() => _StudentTimetableScreenState();

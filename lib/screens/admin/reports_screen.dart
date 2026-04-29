@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../models/mock_data.dart';
 
 class ReportsScreen extends StatelessWidget {
-  const ReportsScreen({Key? key}) : super(key: key);
+  const ReportsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

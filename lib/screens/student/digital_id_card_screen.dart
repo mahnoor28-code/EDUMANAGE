@@ -4,7 +4,7 @@ import '../../theme.dart';
 class DigitalIdCardScreen extends StatelessWidget {
   final String username;
   
-  const DigitalIdCardScreen({Key? key, required this.username}) : super(key: key);
+  const DigitalIdCardScreen({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {

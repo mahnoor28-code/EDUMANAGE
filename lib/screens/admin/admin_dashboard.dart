@@ -18,7 +18,7 @@ import 'manage_leave_requests_screen.dart';
 
 class AdminDashboard extends StatelessWidget {
   final String username;
-  const AdminDashboard({Key? key, this.username = 'Admin'}) : super(key: key);
+  const AdminDashboard({super.key, this.username = 'Admin'});
 
   @override
   Widget build(BuildContext context) {

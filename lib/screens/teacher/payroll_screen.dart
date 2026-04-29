@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'payslip_pdf_screen.dart';
 
 class PayrollScreen extends StatefulWidget {
-  const PayrollScreen({Key? key}) : super(key: key);
+  const PayrollScreen({super.key});
 
   @override
   State<PayrollScreen> createState() => _PayrollScreenState();
@@ -40,7 +40,7 @@ class _PayrollScreenState extends State<PayrollScreen> {
           const SizedBox(height: 20),
           const Text('Recent Payslips', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          ..._payslips.map((p) => _PayslipCard(month: p['month']!, amount: p['amount']!, status: p['status']!)).toList(),
+          ..._payslips.map((p) => _PayslipCard(month: p['month']!, amount: p['amount']!, status: p['status']!)),
         ],
       ),
     );

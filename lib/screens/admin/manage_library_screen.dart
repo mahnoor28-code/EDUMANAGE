@@ -3,7 +3,7 @@ import '../../services/database_service.dart';
 import '../../models/mock_data.dart';
 
 class ManageLibraryScreen extends StatefulWidget {
-  const ManageLibraryScreen({Key? key}) : super(key: key);
+  const ManageLibraryScreen({super.key});
 
   @override
   State<ManageLibraryScreen> createState() => _ManageLibraryScreenState();

@@ -19,7 +19,7 @@ class AttendanceStudent {
 }
 
 class MarkAttendanceScreen extends StatefulWidget {
-  const MarkAttendanceScreen({Key? key}) : super(key: key);
+  const MarkAttendanceScreen({super.key});
 
   @override
   State<MarkAttendanceScreen> createState() => _MarkAttendanceScreenState();
@@ -27,10 +27,10 @@ class MarkAttendanceScreen extends StatefulWidget {
 
 class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
   final List<AttendanceStudent> _students = [
-    AttendanceStudent(id: '1', name: 'Alice Smith', rollNumber: '101'),
-    AttendanceStudent(id: '2', name: 'Bob Johnson', rollNumber: '102'),
-    AttendanceStudent(id: '3', name: 'Charlie Brown', rollNumber: '103'),
-    AttendanceStudent(id: '4', name: 'Diana Prince', rollNumber: '104'),
+    AttendanceStudent(id: '1', name: 'Mahzil Sohail', rollNumber: '101'),
+    AttendanceStudent(id: '2', name: 'Meerab Kashif', rollNumber: '102'),
+    AttendanceStudent(id: '3', name: 'Malaika Asghar', rollNumber: '103'),
+    AttendanceStudent(id: '4', name: 'Fatima Zafar', rollNumber: '104'),
   ];
 
   void _submitAttendance() {

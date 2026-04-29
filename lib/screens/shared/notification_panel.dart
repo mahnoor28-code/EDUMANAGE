@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NotificationPanelScreen extends StatelessWidget {
-  const NotificationPanelScreen({Key? key}) : super(key: key);
+  const NotificationPanelScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

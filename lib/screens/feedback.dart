@@ -3,7 +3,7 @@ import '../services/database_service.dart';
 import '../models/mock_data.dart'; // contains FeedbackItem
 
 class FeedbackScreen extends StatelessWidget {
-  const FeedbackScreen({Key? key}) : super(key: key);
+  const FeedbackScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

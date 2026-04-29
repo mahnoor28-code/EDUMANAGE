@@ -3,7 +3,7 @@ import '../../services/database_service.dart';
 import '../../models/mock_data.dart';
 
 class UploadAssignmentScreen extends StatefulWidget {
-  const UploadAssignmentScreen({Key? key}) : super(key: key);
+  const UploadAssignmentScreen({super.key});
 
   @override
   State<UploadAssignmentScreen> createState() => _UploadAssignmentScreenState();

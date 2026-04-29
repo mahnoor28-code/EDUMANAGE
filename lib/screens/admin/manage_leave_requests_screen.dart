@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/mock_data.dart';
+import '../../models/leave_request_model.dart';
 import '../../services/database_service.dart';
 import '../../theme.dart';
 
 class ManageLeaveRequestsScreen extends StatefulWidget {
-  const ManageLeaveRequestsScreen({Key? key}) : super(key: key);
+  const ManageLeaveRequestsScreen({super.key});
 
   @override
   State<ManageLeaveRequestsScreen> createState() => _ManageLeaveRequestsScreenState();
@@ -45,7 +46,7 @@ class _ManageLeaveRequestsScreenState extends State<ManageLeaveRequestsScreen> w
   }
 
   Widget _buildRequestsList(String role) {
-    return StreamBuilder<List<LeaveRequest>>(
+    return StreamBuilder<List<LeaveRequestModel>>(
       stream: _dbService.streamLeaveRequests(role: role),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

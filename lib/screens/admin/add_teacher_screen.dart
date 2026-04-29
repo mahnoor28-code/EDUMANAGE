@@ -5,7 +5,7 @@ import '../../models/teacher_model.dart';
 import '../../services/database_service.dart';
 
 class AddTeacherScreen extends StatefulWidget {
-  const AddTeacherScreen({Key? key}) : super(key: key);
+  const AddTeacherScreen({super.key});
 
   @override
   State<AddTeacherScreen> createState() => _AddTeacherScreenState();
@@ -13,7 +13,7 @@ class AddTeacherScreen extends StatefulWidget {
 
 class _AddTeacherScreenState extends State<AddTeacherScreen> {
   final _formKey = GlobalKey<FormState>();
-  final List<TeacherModel> _teachers = []; // Dummy local list
+  // final List<TeacherModel> _teachers = [];
 
   final _nameController = TextEditingController();
   final _subjectController = TextEditingController();

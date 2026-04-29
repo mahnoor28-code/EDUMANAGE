@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/mock_data.dart';
 
 class SearchFilterScreen extends StatefulWidget {
-  const SearchFilterScreen({Key? key}) : super(key: key);
+  const SearchFilterScreen({super.key});
 
   @override
   State<SearchFilterScreen> createState() => _SearchFilterScreenState();

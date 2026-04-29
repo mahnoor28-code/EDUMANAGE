@@ -17,13 +17,10 @@ import '../shared/feedback_screen.dart';
 import '../shared/regulations_screen.dart';
 import '../shared/leave_request_screen.dart';
 import 'student_homework_screen.dart';
-import '../../services/database_service.dart';
-import '../../models/mock_data.dart';
-import 'package:intl/intl.dart';
 
 class StudentDashboard extends StatelessWidget {
   final String username;
-  const StudentDashboard({Key? key, this.username = 'Student'}) : super(key: key);
+  const StudentDashboard({super.key, this.username = 'Student'});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +80,7 @@ class StudentDashboard extends StatelessWidget {
                   ),
                   const Text(
                     'Class 10A | Roll No: 101',
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
                 ],
               ),

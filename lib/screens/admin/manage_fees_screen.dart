@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ManageFeesScreen extends StatefulWidget {
-  const ManageFeesScreen({Key? key}) : super(key: key);
+  const ManageFeesScreen({super.key});
 
   @override
   State<ManageFeesScreen> createState() => _ManageFeesScreenState();
@@ -9,10 +9,10 @@ class ManageFeesScreen extends StatefulWidget {
 
 class _ManageFeesScreenState extends State<ManageFeesScreen> {
   final List<Map<String, String>> _transactions = [
-    {'student': 'Alice Smith', 'amount': 'Rs 14,500', 'status': 'Paid', 'date': 'Today, 10:30 AM'},
-    {'student': 'Bob Williams', 'amount': 'Rs 8,000', 'status': 'Pending', 'date': 'Yesterday'},
-    {'student': 'Charlie Brown', 'amount': 'Rs 14,500', 'status': 'Paid', 'date': 'April 14, 2026'},
-    {'student': 'Diana Prince', 'amount': 'Rs 4,500', 'status': 'Failed', 'date': 'April 12, 2026'},
+    {'student': 'Mahzil Sohail', 'amount': 'Rs 14,500', 'status': 'Paid', 'date': 'Today, 10:30 AM'},
+    {'student': 'Meerab Kashi', 'amount': 'Rs 8,000', 'status': 'Pending', 'date': 'Yesterday'},
+    {'student': 'Malaika Asghar', 'amount': 'Rs 14,500', 'status': 'Paid', 'date': 'April 14, 2026'},
+    {'student': 'Fatima Zafar', 'amount': 'Rs 4,500', 'status': 'Failed', 'date': 'April 12, 2026'},
   ];
 
   void _showAddTransactionModal() {
@@ -115,7 +115,7 @@ class _ManageFeesScreenState extends State<ManageFeesScreen> {
               amount: tx['amount']!,
               status: tx['status']!,
               date: tx['date']!,
-            )).toList(),
+            )),
           ],
         ),
       ),

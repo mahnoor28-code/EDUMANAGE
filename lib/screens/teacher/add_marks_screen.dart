@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/custom_button.dart';
 
 class AddMarksScreen extends StatefulWidget {
-  const AddMarksScreen({Key? key}) : super(key: key);
+  const AddMarksScreen({super.key});
 
   @override
   State<AddMarksScreen> createState() => _AddMarksScreenState();
@@ -11,9 +11,11 @@ class AddMarksScreen extends StatefulWidget {
 class _AddMarksScreenState extends State<AddMarksScreen> {
   // Enhanced local data for dynamic grade calculation
   final List<Map<String, dynamic>> _students = [
-    {'name': 'Alice Smith', 'roll': '101', 'marksController': TextEditingController()},
-    {'name': 'Bob Johnson', 'roll': '102', 'marksController': TextEditingController()},
-    {'name': 'Charlie Brown', 'roll': '103', 'marksController': TextEditingController()},
+    {'name': 'Mahzil Sohail', 'roll': '101', 'marksController': TextEditingController()},
+    {'name': 'Meerab Kashif', 'roll': '102', 'marksController': TextEditingController()},
+    {'name': 'Malaika Asghar', 'roll': '103', 'marksController': TextEditingController()},
+    {'name': 'Fatima Zafar', 'roll': '104', 'marksController': TextEditingController()},
+
   ];
 
   @override

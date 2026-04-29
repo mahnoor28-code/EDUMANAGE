@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class StudentPerformanceScreen extends StatefulWidget {
-  const StudentPerformanceScreen({Key? key}) : super(key: key);
+  const StudentPerformanceScreen({super.key});
 
   @override
   State<StudentPerformanceScreen> createState() => _StudentPerformanceScreenState();
@@ -70,7 +70,7 @@ class _StudentPerformanceScreenState extends State<StudentPerformanceScreen> {
                                 sideTitles: SideTitles(
                                   showTitles: true,
                                   getTitlesWidget: (value, meta) {
-                                    const titles = ['JD', 'JS', 'AJ', 'BB'];
+                                    const titles = ['Mahzil', 'Meerab', 'Malaika', 'Fatima'];
                                     if (value >= 0 && value < titles.length) {
                                       return Text(titles[value.toInt()]);
                                     }
@@ -101,7 +101,7 @@ class _StudentPerformanceScreenState extends State<StudentPerformanceScreen> {
               const SizedBox(height: 20),
               const Expanded(
                 child: Center(
-                  child: Text('AI Prediction: "Focus on student BB. Recent marks show a decline."'),
+                  child: Text('AI Prediction: "Focus on student Fatima. Recent marks show a decline."'),
                 ),
               )
             ],

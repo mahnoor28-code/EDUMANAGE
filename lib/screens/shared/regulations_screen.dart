@@ -7,7 +7,7 @@ class RegulationsScreen extends StatefulWidget {
   final bool isAdmin;
   final String targetRole; // e.g., 'Student', 'Teacher', or 'All'
 
-  const RegulationsScreen({Key? key, this.isAdmin = false, this.targetRole = 'All'}) : super(key: key);
+  const RegulationsScreen({super.key, this.isAdmin = false, this.targetRole = 'All'});
 
   @override
   State<RegulationsScreen> createState() => _RegulationsScreenState();

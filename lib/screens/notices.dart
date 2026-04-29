@@ -3,7 +3,7 @@ import '../services/database_service.dart';
 import '../models/mock_data.dart'; // contains Notice
 
 class NoticesScreen extends StatelessWidget {
-  const NoticesScreen({Key? key}) : super(key: key);
+  const NoticesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

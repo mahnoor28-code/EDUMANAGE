@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/mock_data.dart';
+import '../../models/leave_request_model.dart';
 import '../../services/database_service.dart';
 import '../../theme.dart';
 
@@ -10,11 +11,11 @@ class LeaveRequestScreen extends StatefulWidget {
   final String userRole;
 
   const LeaveRequestScreen({
-    Key? key,
+    super.key,
     required this.userId,
     required this.userName,
     required this.userRole,
-  }) : super(key: key);
+  });
 
   @override
   State<LeaveRequestScreen> createState() => _LeaveRequestScreenState();
@@ -47,7 +48,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
     });
 
     try {
-      final request = LeaveRequest(
+      final request = LeaveRequestModel(
         id: '', // Will be assigned by Firestore
         userId: widget.userId,
         userName: widget.userName,
@@ -188,7 +189,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
             const SizedBox(height: 30),
             const Text('Your Past Requests', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            StreamBuilder<List<LeaveRequest>>(
+            StreamBuilder<List<LeaveRequestModel>>(
               stream: _dbService.streamLeaveRequests(userId: widget.userId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

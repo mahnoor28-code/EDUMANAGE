@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/mock_data.dart'; // contains models like Regulation, Notice, Assignment
+import '../models/mock_data.dart';
 import '../models/student_model.dart';
 import '../models/teacher_model.dart';
+import '../models/leave_request_model.dart';
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -62,27 +63,45 @@ class DatabaseService {
   }
 
   // --- Leave Requests ---
-
-  Stream<List<LeaveRequest>> streamLeaveRequests({String? userId, String? role}) {
-    Query query = _db.collection('leave_requests').orderBy('appliedDate', descending: true);
+  
+  Stream<List<LeaveRequestModel>> streamLeaveRequests({String? userId, String? role}) {
+    Query query = _db.collection('leave_requests');
     
     if (userId != null) {
       query = query.where('userId', isEqualTo: userId);
     } else if (role != null) {
       query = query.where('userRole', isEqualTo: role);
     }
-    
-    return query.snapshots().map((snapshot) => 
-      snapshot.docs.map((doc) => LeaveRequest.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList()
-    );
+
+    // We fetch without orderBy to avoid composite index requirements for now.
+    // Sorting will be done in memory.
+    return query.snapshots().map((snapshot) {
+      final requests = snapshot.docs.map((doc) => 
+        LeaveRequestModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)
+      ).toList();
+      
+      // Sort in-memory: latest first
+      requests.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+      return requests;
+    });
   }
 
-  Future<void> addLeaveRequest(LeaveRequest request) async {
-    await _db.collection('leave_requests').add(request.toMap());
+  Future<void> addLeaveRequest(LeaveRequestModel request) async {
+    try {
+      await _db.collection('leave_requests').add(request.toMap());
+    } catch (e) {
+      print('Error adding leave request: $e');
+      rethrow;
+    }
   }
 
   Future<void> updateLeaveRequestStatus(String id, String status) async {
-    await _db.collection('leave_requests').doc(id).update({'status': status});
+    try {
+      await _db.collection('leave_requests').doc(id).update({'status': status});
+    } catch (e) {
+      print('Error updating leave request status: $e');
+      rethrow;
+    }
   }
 
   // --- Assignments ---

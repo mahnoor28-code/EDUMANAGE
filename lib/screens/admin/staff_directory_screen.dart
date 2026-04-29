@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StaffDirectoryScreen extends StatefulWidget {
-  const StaffDirectoryScreen({Key? key}) : super(key: key);
+  const StaffDirectoryScreen({super.key});
 
   @override
   State<StaffDirectoryScreen> createState() => _StaffDirectoryScreenState();

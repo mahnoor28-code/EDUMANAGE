@@ -5,19 +5,19 @@ import '../../models/mock_data.dart';
 import '../../theme.dart';
 
 class StudentHomeworkScreen extends StatelessWidget {
-  const StudentHomeworkScreen({Key? key}) : super(key: key);
+  const StudentHomeworkScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final DatabaseService _dbService = DatabaseService();
+    final DatabaseService dbService = DatabaseService();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Homework & Assignments'),
       ),
       body: StreamBuilder<List<Assignment>>(
-        stream: _dbService.streamAssignments(targetClass: '10A'), // Hardcoded to student's class
+        stream: dbService.streamAssignments(targetClass: '10A'), // Hardcoded to student's class
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -60,7 +60,7 @@ class StudentHomeworkScreen extends StatelessWidget {
 class AssignmentItem extends StatefulWidget {
   final Assignment assignment;
   final bool isDark;
-  const AssignmentItem({Key? key, required this.assignment, required this.isDark}) : super(key: key);
+  const AssignmentItem({super.key, required this.assignment, required this.isDark});
 
   @override
   State<AssignmentItem> createState() => _AssignmentItemState();

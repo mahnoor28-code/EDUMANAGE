@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../services/database_service.dart';
 import '../../models/mock_data.dart'; // Contains Notice model
 
 class ManageNoticesScreen extends StatefulWidget {
-  const ManageNoticesScreen({Key? key}) : super(key: key);
+  const ManageNoticesScreen({super.key});
 
   @override
   State<ManageNoticesScreen> createState() => _ManageNoticesScreenState();

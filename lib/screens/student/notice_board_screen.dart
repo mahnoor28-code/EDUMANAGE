@@ -3,7 +3,7 @@ import '../../services/database_service.dart';
 import '../../models/mock_data.dart'; // contains Notice model
 
 class NoticeBoardScreen extends StatelessWidget {
-  const NoticeBoardScreen({Key? key}) : super(key: key);
+  const NoticeBoardScreen({super.key});
 
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';

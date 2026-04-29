@@ -13,13 +13,10 @@ import 'payroll_screen.dart';
 import 'class_announcements_screen.dart';
 import '../shared/feedback_screen.dart';
 import '../shared/regulations_screen.dart';
-import '../../services/database_service.dart';
-import '../../models/mock_data.dart';
-import 'package:intl/intl.dart';
 
 class TeacherDashboard extends StatelessWidget {
   final String username;
-  const TeacherDashboard({Key? key, this.username = 'Teacher'}) : super(key: key);
+  const TeacherDashboard({super.key, this.username = 'Teacher'});
 
   @override
   Widget build(BuildContext context) {

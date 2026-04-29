@@ -7,7 +7,7 @@ class FeedbackScreen extends StatefulWidget {
   final String userRole; // e.g., 'Student', 'Teacher', 'Admin'
   final String userId;
 
-  const FeedbackScreen({Key? key, required this.userRole, required this.userId}) : super(key: key);
+  const FeedbackScreen({super.key, required this.userRole, required this.userId});
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -67,7 +67,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     const Text('Submit New Feedback', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<String>(
-                      value: _typeController.text,
+                      initialValue: _typeController.text,
                       items: ['Suggestion', 'Complaint'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

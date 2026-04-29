@@ -5,7 +5,7 @@ import '../../models/student_model.dart';
 import '../../services/database_service.dart';
 
 class AddStudentScreen extends StatefulWidget {
-  const AddStudentScreen({Key? key}) : super(key: key);
+  const AddStudentScreen({super.key});
 
   @override
   State<AddStudentScreen> createState() => _AddStudentScreenState();

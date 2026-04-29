@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StudentProfileScreen extends StatelessWidget {
   final String username;
-  const StudentProfileScreen({Key? key, this.username = 'Student'}) : super(key: key);
+  const StudentProfileScreen({super.key, this.username = 'Student'});
 
   @override
   Widget build(BuildContext context) {
